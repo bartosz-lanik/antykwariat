@@ -1,5 +1,1 @@
-# Antykwariat
-Repozytorium aplikacji webowej "Antykwariat"
-
-1 kamień milowy: rejestracja
-2 kamien
+Aplikacja internetowa "Antykwariat", będąca projektem zaliczeniowym na studiach
