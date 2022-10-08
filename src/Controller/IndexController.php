@@ -11,6 +11,7 @@ use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
@@ -86,6 +87,9 @@ class IndexController extends AbstractController
      */
     public function export(): BinaryFileResponse
     {
+        $filesystem = new Filesystem();
+        $filesystem->mkdir($this->getParameter('kernel.project_dir').'/public/exports', 0700);
+
         $myCollections = $this->collectionRepository->findAll();
         if(!$myCollections) {
             throw $this->createNotFoundException('Collections does not exist');
