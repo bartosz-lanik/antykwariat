@@ -1,0 +1,23 @@
+body {
+    font-family: 'Roboto', sans-serif;
+}
+.card:hover {
+    background-color: #f3f3f3;
+    cursor: pointer;
+}
+.fa-star {
+    font-size: 14px;
+}
+input.form-control {
+    background-clip: unset;
+}
+.page-footer {
+    background-color: #616161;
+}
+footer, .footer-link {
+    color: white;
+}
+.pagn {
+    position: absolute;
+    bottom: 0;
+}

@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ site_name }} - {{ t('app.titleLogin', {}, 'app')|trans }}{% endblock %}
+
+{% block body %}
+    <div class="d-flex container flex-fill align-items-center">
+        <form class="form-signin" method="post">
+            {% if error %}
+                <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+            {% endif %}
+
+            {% if app.user %}
+                <div class="mb-3">
+                    You are logged in as {{ app.user.username }}, <a href="{{ path('app_logout') }}">{{ t('app.layoutLoginUserLogout', {}, 'app')|trans }}</a>
+                </div>
+            {% endif %}
+            <input type="text" {{ last_username }} name="username" id="inputUsername" class="form-control mb-1" placeholder="{{ t('app.layoutLoginUsername', {}, 'app')|trans }}" required autofocus>
+            <input type="password" name="password" id="inputPassword" class="form-control" placeholder="{{ t('app.layoutLoginPassword', {}, 'app')|trans }}" required>
+
+            <input type="hidden" name="_csrf_token"
+                   value="{{ csrf_token('authenticate') }}"
+            >
+
+            <button class="btn btn-lg btn-primary btn-block" type="submit">{{ t('app.layoutLoginButtonLogin', {}, 'app')|trans }}</button>
+            <a href="{{ path('app_register') }}">Register</a>
+        </form>
+    </div>
+{% endblock %}

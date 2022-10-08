@@ -1,0 +1,23 @@
+<a href="{{ path('collection', {'slug': slug}) }}" class="text-reset text-decoration-none">
+    <div class="card">
+        {% if image == null %}
+        <div class="embed-responsive embed-responsive-1by1">
+            <img src="{{ asset('default.svg', 'images') }}" class="card-img-top embed-responsive-item">
+        </div>
+        {% else %}
+        <div class="embed-responsive embed-responsive-1by1">
+            <img src="{{ asset(image, 'images') }}" class="card-img-top embed-responsive-item">
+        </div>
+        {% endif %}
+        <div class="card-body p-2">
+            <h6 class="card-title text-truncate mb-0">{{ name }}</h6>
+            <span class="card-text">
+                <div class="row">
+                    <div class="col-12 mb-md-1 mb-lg-0 text-muted text-truncate">
+                        {{ description }}
+                    </div>
+                </div>
+            </span>
+        </div>
+    </div>
+</a>

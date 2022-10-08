@@ -1,0 +1,165 @@
+{% extends 'base.html.twig' %}
+{% block title %}{{ site_name }} - {{ collection.name }}{% endblock %}
+{% block body %}
+    <div class="container flex-fill mt-2">
+
+        {% for message in app.flashes('success') %}
+            <div class="alert alert-success mb-2">
+                {{ message }}
+            </div>
+        {% endfor %}
+
+        {% for message in app.flashes('error') %}
+            <div class="alert alert-danger mb-2">
+                <h4 class="alert-heading">Errors:</h4>
+                {% if message is iterable %}
+                    <ul class="m-0">
+                        {% for error in message %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    {{ message }}
+                {% endif %}
+            </div>
+        {% endfor %}
+
+        <div class="row">
+            <div class="col-xl-12">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item">
+                        <a href="{{ path('index') }}">
+                            {{ t('app.layoutCollectionHeaderBarMainPage', {}, 'app')|trans }}
+                        </a>
+                    </li>
+                    <li class="breadcrumb-item">
+                        <a href="{{ path('category', {'catID': collection.category.id, 'catName': trimCat(category)}) }}">
+                            {{ category }}
+                        </a>
+                    </li>
+                    <li class="breadcrumb-item active flex-grow-1">
+                        {{ collection.name }}
+                    </li>
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <li class="breadcrumb-item no-content">
+                            <a href="{{ path('collection_delete', {'slug': collection.slug}) }}">
+                                {{ t('app.objectRemove', {}, 'app')|trans }}
+                            </a>
+                        </li>
+                        <li class="breadcrumb-item">
+                            <a href="{{ path('category', {'catID': collection.category.id, 'catName': trimCat(category)}) }}" data-toggle="modal" data-target="#setAttributeToObject">
+                                {{ t('app.objectAddAttributes', {}, 'app')|trans }}
+                            </a>
+                        </li>
+                    {% endif %}
+                </ol>
+                <div class="programName">
+                    <div class="row">
+                        <div class="col-xl-9 col-lg-9 col-md-9 d-flex h-100">
+                            <span class="h2 text-justify">
+                            {{ collection.name }}
+                        </span>
+                        </div>
+                        <div class="col-xl-3 col-lg-3 col-md-3">
+                            <div class="programButtonDownload">
+                                <a href="{{ path('collection_export', {'slug': collection.slug}) }}">
+                                    <button type="button" class="btn btn-secondary btn-lg w-100">
+                                        Export to XLSX
+                                    </button>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col-xl-9">
+                <div class="row">
+                    <div class="col-12">
+                        <p class="programDescription text-justify h5 text-break">
+                            {{ collection.description }}
+                        </p>
+                    </div>
+                </div>
+                {% if not (collection.image is empty) %}
+                    <div class="row">
+                        <div class="col-12 text-center">
+                            <img src="{{ asset(collection.image, 'images') }}" class="img-thumbnail">
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+            <div class="col-xl-3">
+                <div class="row">
+                    <div class="col-12">
+                        <div>
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item">
+                                    {{ t('app.layoutProgramRightBarInfoTitle', {}, 'app')|trans }}
+                                </li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    {% if collection.getMyCollectionAttributes() is empty %}
+                        <div class="col-12 text-center">
+                            There are not attributes yet.
+                        </div>
+                    {% else %}
+                        {% for attributes in collection.getMyCollectionAttributes() %}
+                            <div class="col-xl-12 col-lg-6 col-md-6">
+                                <div class="row">
+                                    <div class="col-xl-2 col-lg-2 col-md-2 col-2">
+                                        <span class="fa-stack fa-lg">
+                                            <i class="fa fa-tags fa-stack-1x"></i>
+                                        </span>
+                                    </div>
+                                    <div class="col-xl-10 col-lg-10 col-md-10 col-10">
+                                        <div class="font-weight-bold">{{ attributes.getAttribute().name }}</div>
+                                        {{ attributes.value }}
+                                    </div>
+                                </div>
+                            </div>
+                            {% if not loop.last %}
+                            <div class="col-12 d-xl-block d-lg-none d-md-none d-block"><hr></div>
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                </div>
+                <div class="row mt-3">
+                    <div class="col-xl-12 col-lg-12 mt-2">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                {{ t('app.layoutProgramRightBarSimilarTitle', {}, 'app')|trans }}
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+                <div class="row mb-3 mb-xl-0">
+                    {% for collectionSimilar in similarCollections|slice(0,3) %}
+                        <div class="col-xl-12 col-md-4 mb-xl-3 mb-md-0 mb-3">
+                            {% include 'components/collectionCard.html.twig' with {
+                                'slug': collectionSimilar.slug,
+                                'name': collectionSimilar.name,
+                                'description': collectionSimilar.description,
+                                'image': collectionSimilar.image
+                            }%}
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="setAttributeToObject" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    {{ form_start(formSetAttribute) }}
+                    {{ form_end(formSetAttribute) }}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

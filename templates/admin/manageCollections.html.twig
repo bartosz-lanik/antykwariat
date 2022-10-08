@@ -1,0 +1,126 @@
+{% extends 'base.html.twig' %}
+{% block title %}{{ site_name }} - manage{% endblock %}
+{% block body %}
+    <div class="container flex-fill mt-2">
+
+        {% for message in app.flashes('success') %}
+            <div class="alert alert-success mb-2">
+                {{ message }}
+            </div>
+        {% endfor %}
+
+        {% for message in app.flashes('error') %}
+            <div class="alert alert-danger mb-2">
+                <h4 class="alert-heading">Errors:</h4>
+                {% if message is iterable %}
+                    <ul class="m-0">
+                        {% for error in message %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    {{ message }}
+                {% endif %}
+            </div>
+        {% endfor %}
+        <div class="row mt-2">
+            <div class="col-12">
+                <button type="button" class="btn btn-secondary mb-2" data-toggle="modal" data-target="#addCollection">Add collection</button>
+                <button type="button" class="btn btn-secondary mb-2" data-toggle="modal" data-target="#addAttributeToCollection">Add attribute to collection</button>
+                <button type="button" class="btn btn-secondary mb-2" data-toggle="modal" data-target="#addObjectToCollection">Add object to collection</button>
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Collection name PL</th>
+                        <th scope="col">Collection name EN</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for category in categories %}
+                        <tr>
+                        <th scope="row">{{ loop.index }}</th>
+                        <td>{{ category.translations.get('pl').name }}</td>
+                        <td>{{ category.translations.get('en').name }}</td>
+                        <td>
+                            <a href="#" class="text-reset text-decoration-none mr-2" data-toggle="dropdown">
+                                <i class="fas fa-ellipsis-h"></i>
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#attributeList{{ category.id }}">Attribute list</a>
+                                <a class="dropdown-item" href="{{ path('admin_manage_collections_delete', {'id': category.id }) }}">Delete</a>
+                            </div>
+                            <div class="modal fade" id="attributeList{{ category.id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-body">
+                                            {% if category.getAttributes() is empty %}
+                                                There are not attributes here.
+                                            {% else %}
+                                                <table class="table table-striped">
+                                                    <thead>
+                                                    <tr style="background-color: white;">
+                                                        <th scope="col">#</th>
+                                                        <th scope="col">Name</th>
+                                                        <th scope="col">Action</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    {% for attribute in category.getAttributes() %}
+                                                        <tr>
+                                                            <th scope="row">{{ loop.index }}</th>
+                                                            <td>{{ attribute.name }}</td>
+                                                            <td>
+                                                                <a href="{{ path('admin_manage_collections_attributes_delete', {'id': attribute.id }) }}" class="text-reset text-decoration-none">
+                                                                    <i class="fas fa-times"></i>
+                                                                </a>
+                                                            </td>
+                                                        </tr>
+                                                    {% endfor %}
+                                                    </tbody>
+                                                </table>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="addCollection" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    {{ form_start(form) }}
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="addAttributeToCollection" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    {{ form_start(form_attribute) }}
+                    {{ form_end(form_attribute) }}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="addObjectToCollection" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    {{ form_start(form_object) }}
+                    {{ form_end(form_object) }}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,159 @@
+body {
+    font-family: 'Roboto', sans-serif;
+}
+.card.author:hover {
+    background-color: #f3f3f3;
+    cursor: pointer;
+}
+.card:hover {
+    background-color: #f3f3f3;
+    cursor: pointer;
+}
+.card-logged:hover {
+    background-color: white;
+    cursor: auto;
+}
+.user-info {
+    display: flex;
+    padding: 0;
+    margin: 0;
+}
+.fa-star {
+    font-size: 14px;
+}
+input.form-control {
+    background-clip: unset;
+}
+/*.carousel-inner {*/
+/*    max-height: 500px;*/
+/*}*/
+/*.card-body-recommended {*/
+/*    padding: 0 1.25rem;*/
+/*}*/
+.dateAdd {
+    padding: 0.5rem 1.25rem;
+    background-color: #e1e4e6 !important;
+}
+footer {
+    color: white;
+}
+.footer-link {
+    color: white;
+}
+.footer-link:hover {
+    color: black;
+    text-decoration: none;
+}
+.page-footer {
+    background-color: #616161;
+}
+.reviewAvatar {
+    width: 150px; height: 150px;
+}
+.review {
+    min-height: 350px;
+}
+.reviewRightBar {
+    cursor: pointer;
+}
+.reviewCenterBar {
+    background-color: #e9ecef;
+}
+.programDescription {
+    line-height: 1.5;
+}
+.programDescriptionSecond {
+    line-height: 1.5;
+}
+.btn-social :first-child{
+    position:absolute;
+    left:0;
+    top:0;
+    bottom:0;
+    width:32px;
+    line-height:34px;
+    font-size:1.6em;
+    text-align:center;
+    border-right:1px solid rgba(0,0,0,0.2)
+}
+@media (min-width: 992px) {
+    .card.review:before {
+        position: absolute;
+        top: 20px;
+        left: -25px;
+        content: "";
+        border-top: 12px solid transparent;
+        border-right: 24px solid #b5b5b5;
+        border-bottom: 12px solid transparent;
+    }
+}
+.plus {
+    color: green;
+}
+.minus {
+    color: red;
+}
+.descriptionFooter {
+    position: absolute;
+    bottom: 0;
+}
+textarea {
+    resize: none;
+}
+.newer {
+    cursor: pointer;
+}
+.programIcon {
+    width: 39px;
+    height: 39px;
+}
+/*@media (min-width: 768px) {*/
+/*    .card-img-top {*/
+/*        height: 120px;*/
+/*    }*/
+/*}*/
+.pagn {
+    position: absolute;
+    bottom: 0;
+}
+.card-img-top-index {
+    height: 100px;
+}
+.no-content:before {
+    content: ''!important;
+}
+.downloads {
+    font-size: 13px;
+}
+
+.screenThumb {
+    height: 200px;
+}
+
+.delScreen {
+    position:absolute;
+    top: 10px;
+    left: 24px;
+}
+.scr-overlay {
+    display:none;
+    text-align: center;
+}
+.xx:hover .scr-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background: rgb(0, 0, 0);
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    border-radius: 5px;
+    width: 100%;
+    height: 100%;
+}
+.asd {
+    height: 100px;
+    overflow: hidden;
+}
